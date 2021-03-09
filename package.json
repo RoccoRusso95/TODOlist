@@ -1,0 +1,30 @@
+{
+  "name": "todolist",
+  "version": "1.0.0",
+  "description": "a simple todo-list app",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoccoRusso95/TODOlist.git"
+  },
+  "keywords": [
+    "todolist",
+    "task"
+  ],
+  "author": "Rocco Russo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RoccoRusso95/TODOlist/issues"
+  },
+  "homepage": "https://github.com/RoccoRusso95/TODOlist#readme",
+  "dependencies": {
+    "class-validator": "^0.13.1"
+  },
+  "devDependencies": {
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
+  }
+}
