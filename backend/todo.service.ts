@@ -14,34 +14,35 @@ export class TodoService {
     }
 
     async executeQuery(sql: string): Promise<void>{
-        const create = (t) => this.createTask(t);
-        this.conn.query(sql, function (err, result) {
+        this.conn.query(sql, (err, result) => {
             if (err) throw err;
             //console.log("Result: " + JSON.stringify(result));
-
-            //Creo un task di prova se il db è vuoto
-            if (sql.includes('DATABASE') && result.affectedRows != 0){
-                const jsonTask = {
-                    titolo : "Task di prova",
-                    descrizione: "Questo è un semplice task di prova",
-                    stato: "IN_ELABORAZIONE",
-                    dataScadenza: "2021/03/31"
-                }
-                const task = new Task(jsonTask);
-                create(task);
-            }
         })
     }
     
     async createTask(task: Task): Promise<void>{
         const sql: string = 
-        `INSERT INTO ${this.table_name} (titolo, descrizione, stato, data_scadenza) VALUES ('${task.titolo}', '${task.descrizione}', '${task.stato}', '${task.dataScadenza}')`;
+        `INSERT INTO ${this.table_name} (titolo, descrizione, stato, data_scadenza) VALUES ('${task.titolo}', '${task.descrizione}', '${task.stato}', '${task.dataMysql}')`;
+        console.log(sql);
         await this.executeQuery(sql);
     }
 
     async createDB(): Promise<void>{
         const sql: string = `CREATE DATABASE IF NOT EXISTS ${this.db_name}`;
-        await this.executeQuery(sql);
+        createConnection({host: "localhost",user: "root",password: ""}).query(sql, (err, result) => {
+            if (err) throw err;
+            //Creo un task di prova se il db è vuoto
+            if (result.affectedRows != 0){
+                const jsonTask = {
+                    titolo : "Task di prova",
+                    descrizione: "Questo è un semplice task di prova",
+                    stato: "IN_ELABORAZIONE",
+                    dataScadenza: "03/31/2021"
+                }
+                const task = new Task(jsonTask);
+                this.createTask(task);
+            }
+        })
     }
 
     async createTable(): Promise<void>{
@@ -50,7 +51,7 @@ export class TodoService {
             titolo VARCHAR(100) NULL,
             descrizione VARCHAR(500) NULL,
             stato VARCHAR(45) NULL,
-            data_scadenza DATETIME NULL,
+            data_scadenza DATE NULL,
             PRIMARY KEY (id));
           `;
         await this.executeQuery(sql);
@@ -63,7 +64,7 @@ export class TodoService {
 
     async updateTask(newTask: Task, id:number): Promise<void>{
         const sql: string = `UPDATE ${this.table_name} SET titolo='${newTask.titolo}', descrizione='${newTask.descrizione}',
-        stato='${newTask.stato}', data_scadenza='${newTask.dataScadenza}' WHERE id=${id}`;
+        stato='${newTask.stato}', data_scadenza='${newTask.dataMysql}' WHERE id=${id}`;
         await this.executeQuery(sql);
     }
 

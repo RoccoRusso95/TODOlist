@@ -9,14 +9,6 @@ import datepicker from 'js-datepicker';
 import {parse} from "url";
 import {parse as queryParse} from "querystring";
 
-/*const jsonTask = {
-    titolo : "Task di prova",
-    descrizione: "Questo è un semplice task di prova",
-    stato: "IN_ELABORAZIONE",
-    dataScadenza: Date.now()
-}
-const task = new Task(jsonTask);*/
-
 const conn: Connection = createConnection({
     database: "todolist",
     host: "localhost",
@@ -64,11 +56,13 @@ html += `
     </div>
 </div>\n`;
 
+let originalHead = html;
 
 const sql: string = `SELECT  * FROM tasks`;
 
 conn.query(sql, (err, result) => {
     if (err) throw err;
+    
     //passo l'array dei risultati in un input hidden
     const hidden = `<input id="hidden" type="hidden" value='${JSON.stringify(result).replace("'","`")}'/>`;
     html += '\n\t<div id="table">'+hidden+'<table class="table">\n';
@@ -105,6 +99,10 @@ conn.query(sql, (err, result) => {
     createServer((req, res) => {
         const path = "."+req.url;
         const ext = extname(path);
+        //gestione POST
+        const url = parse(req.url,true);
+        const method = req.method.toLowerCase();
+
         let contentType;
         switch (ext) {
             case '.js':
@@ -117,24 +115,8 @@ conn.query(sql, (err, result) => {
                 contentType = 'text/html';
                 break;
         }
-        
+            
         res.writeHead(200, { 'Content-Type': contentType});
-
-        //render css and js files
-        if (existsSync(path) && path != "./"){
-            readFile(path, (err, data) => {
-                if (err) throw err;
-                res.end(data, 'utf-8');
-            })
-        }
-        else {
-            const closure = "\t\t</tr>\n\t</tbody></table></div>\n</body>\n</html>";
-            res.end(html+closure);
-        } 
-        
-        //gestione POST
-        const url = parse(req.url,true);
-        const method = req.method.toLowerCase();
 
         if (method == "post"){
             let body = '';
@@ -158,8 +140,59 @@ conn.query(sql, (err, result) => {
                         service.deleteTask(parseInt(post.id as string));
                         break;
                 }
+                conn.query(sql, (err, result) => {
+                    html = originalHead;
+                    //passo l'array dei risultati in un input hidden
+                    const hidden = `<input id="hidden" type="hidden" value='${JSON.stringify(result).replace("'","`")}'/>`;
+                    html += '\n\t<div id="table">'+hidden+'<table class="table">\n';
+                    let count=0;
+                    result.forEach(tr => {
+                        count++;
+                        //create thead
+                        if (count ==1){
+                            html += "\t\t<thead><tr>\n";
+                            Object.entries(tr).forEach((key, value) => {
+                                html += "\t\t\t<th>"+key[0].toUpperCase()+"</th>";
+                            });
+                            html += "<th>AZIONI</th>\n\t\t</tr></thead>\n<tbody>\n";
+                        }
+                        html += "\t\t<tr>\n";
+                        let id: number;
+                        let iconEdit, iconDelete;
+                        Object.entries(tr).forEach((key, value) => {
+                            if (key[0] == "id") {
+                                id = parseInt(key[1] as string);
+                            }
+                            if (key[0] == "data_scadenza"){
+                                key[1] = service.toItalianDate(key[1] as string);
+                            }
+                            html += "\t\t\t<td>"+key[1]+"</td>";
+                            iconEdit = `<a class="edit" id="${id}"><i class="fa fa-pencil"></i></a>`;
+                            iconDelete = `<a class="delete" id ="${id}"><i class="fa fa-trash"></i></a>`;
+                        });
+                        
+                        html += "<td>"+iconEdit+iconDelete+"</td>\n\t\t</tr>\n";
+                    });
+                }).on("end", () => {
+                    res.writeHead(301, { 'Content-Type': "text/html", Location: "http://localhost:3001"});
+                    const closure = "\t\t</tr>\n\t</tbody></table></div>\n</body>\n</html>";
+                    res.end(html+closure);
+                })
             });
         }
+        else {
+            //render css and js files
+            if (existsSync(path) && path != "./"){
+                readFile(path, (err, data) => {
+                    if (err) throw err;
+                    res.end(data, 'utf-8');
+                })
+            }
+            else {
+                const closure = "\t\t</tr>\n\t</tbody></table></div>\n</body>\n</html>";
+                res.end(html+closure);
+            }
+        }        
     }).listen(3001);
 });
     

@@ -12,17 +12,21 @@ export default class Task {
 
     dataScadenza: string;
 
+    //formato per mysql
+    dataMysql: string;
+
     constructor(jsonTask: any) {
         this.titolo = jsonTask.titolo;
         this.descrizione = jsonTask.descrizione;
         const stato: string = jsonTask.stato;
         this.stato = Stato[stato];
-        this.dataScadenza = this.formatDate(jsonTask.dataScadenza);
+        this.dataScadenza = jsonTask.dataScadenza;
+        this.dataMysql = this.formatDate(jsonTask.dataScadenza as string);
     }
 
     formatDate(date: string){
         const parts = date.split("/");
-        return [parts[2],parts[0],parts[1]].join("/");
+        return [parts[1],parts[0],parts[2]].join("/");
     }
 
 }
