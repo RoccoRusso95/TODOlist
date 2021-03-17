@@ -21,7 +21,7 @@ export default class Task {
         const stato: string = jsonTask.stato;
         this.stato = Stato[stato];
         this.dataScadenza = jsonTask.dataScadenza;
-        this.dataMysql = this.formatDate(jsonTask.dataScadenza as string);
+        this.dataMysql = this.formatDate(jsonTask.dataScadenza);
     }
 
     formatDate(date: string){

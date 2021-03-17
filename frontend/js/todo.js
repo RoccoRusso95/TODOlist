@@ -16,10 +16,13 @@ window.onload = function (){
     
     function showModalElimina(id){
         const modalElimina = `<p>Sei sicuro di voler cancellare questo task?</p>
-        <div id="modalButtons" style="text-align:center;">
-            <input type="button" value="CONFERMA" class="elimina" id="${id}"/>
-            <input type="button" value="ANNULLA" class="annulla" />
-        </div>`;
+        <form method="post" action="/elimina">
+            <input type="hidden" name="id" value="${id}"/>
+            <div id="modalButtons" style="text-align:center;">
+                <input type="submit" value="CONFERMA" class="elimina" id="${id}"/>
+                <input type="button" value="ANNULLA" class="annulla" />
+            </div>
+        </form>`;
         openModal(modalElimina);
     }
     
@@ -121,30 +124,6 @@ window.onload = function (){
         modal.style.display = "block";
         if (buttonAnnulla != undefined && buttonAnnulla != null){
             assignPropertyToClass(buttonAnnulla, null)
-        }
-        if (buttonElimina != undefined && buttonElimina != null){
-            Array.from(buttonElimina).forEach(el => {
-                el.onclick = function(){
-                    const id = el.id;
-                    const task = getTaskById(id);
-                    $.ajax({
-                        type: "POST",
-                        url: "/elimina",
-                        dataType: 'json',
-                        data: { 
-                            id: task.id, 
-                            titolo: task.titolo,
-                            descrizione: task.descrizione,
-                            stato: task.stato,
-                            dataScadenza: task.dataScadenza
-                         },
-                        success: function(data){    
-                            console.log(data);                  
-                        }   
-                    });
-                    closeModal();
-                };
-            })
         }
     }
 
