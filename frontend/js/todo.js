@@ -47,10 +47,16 @@ window.onload = function (){
         return [parts[2],parts[0],parts[1]].join("/");
     }
 
+    function toDatePicker(date){
+        const parts = date.split("-");
+        return [parts[2],parts[1],parts[0]].join("/");
+    }
+
     function gestisciData(){
             $("#data_scadenza").datepicker({
+                dateFormat: 'dd/mm/yy',
                 onSelect:function(date) {            
-                    date = formatDate(date)
+                    //date = formatDate(date)
                     return date;
                 }
             });
@@ -69,7 +75,7 @@ window.onload = function (){
                 <option value="1" ${task.stato == "IN_ELABORAZIONE" ? "selected" : null}>IN ELABORAZIONE</option>
                 <option value="2" ${task.stato == "COMPLETATO" ? "selected" : null}>COMPLETATO</option>
             </select><br>
-            <input id="data_scadenza" name="dataScadenza" type="text" value="${task.dataScadenza}"/><br>
+            <input id="data_scadenza" name="dataScadenza" type="text" value="${task.data_scadenza}"/><br>
             <input id="submit" type="submit" value="CONFERMA"/>
         </form>
         `;
