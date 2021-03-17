@@ -31,7 +31,7 @@ window.onload = function (){
         const form = `
         <form method="post" action="/crea">
             <input id="title" name="titolo" type="text" maxlength="100" placeholder="Titolo del task"/><br>
-            <textarea id="descrizione" name="descrizione" maxlength="500" placeholder="Descrizione del task"/></textarea><br>
+            <textarea id="descrizione" name="descrizione" maxlength="500" rows="10" cols="50" placeholder="Descrizione del task"/></textarea><br>
             <select id="stato" name="stato">
                 <option value="0">INSERITO</option>
                 <option value="1">IN ELABORAZIONE</option>

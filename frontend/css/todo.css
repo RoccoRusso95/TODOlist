@@ -9,12 +9,18 @@ h1 {
 	font-family: arial;
 }
 
-#button_add {
-    margin-top: 50px;
-    width: 100%;
-    text-align: center;
+#add {
     font-family: Arial, sans-serif;
-    text-emphasis-color: #204d74;
+    color:#204d74;
+    border: 2px solid #204d74;
+    width: 150px;
+    height: 30px;
+    font-weight: bold;
+}
+
+#button_add {
+    margin-top: 50px;  
+    text-align: center; 
 }
 
 .modal {
@@ -22,20 +28,21 @@ h1 {
     position: fixed;
     z-index: 1;
     left: 0;
-    top: 0;
+    bottom: 0;
     width: 100%;
-    height: 100%;
+    height: 90%;
     overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color:#204d74;
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: lightsteelblue;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 60%;
+    font-family: Arial, sans-serif;
+    border: 2px solid #204d74;
 }
 
 .close {
@@ -50,7 +57,7 @@ h1 {
 }
 
 .close:hover, .close:focus {
-    color: black;
+    color: #204d74;
     text-decoration: none;
     cursor: pointer;
 }
@@ -77,15 +84,19 @@ table {
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid;
     text-align: center;
+    border-color: #204d74;
+    font-family: Arial, sans-serif;
+    
 }
 
-.table > thead > tr > th,  .table > thead > tr > td{
+.table > thead > tr > th,  .table > tbody > tr > td {
     vertical-align: bottom;
     border-bottom: 2px solid rgb(255, 255, 255);
     padding: 25px;
     line-height: 1.42857143;
+
 }
 
 th {
