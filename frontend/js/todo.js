@@ -78,7 +78,7 @@ window.onload = function (){
                 <option value="1" ${task.stato == "IN_ELABORAZIONE" ? "selected" : null}>IN ELABORAZIONE</option>
                 <option value="2" ${task.stato == "COMPLETATO" ? "selected" : null}>COMPLETATO</option>
             </select><br>
-            <input id="data_scadenza" name="dataScadenza" type="text" value="${task.data_scadenza}"/><br>
+            <input id="data_scadenza" name="dataScadenza" type="text" value="${toDatePicker(task.data_scadenza)}"/><br>
             <input id="submit" type="submit" value="CONFERMA"/>
         </form>
         `;
