@@ -7,11 +7,12 @@ var Task = /** @class */ (function () {
         this.descrizione = jsonTask.descrizione;
         var stato = jsonTask.stato;
         this.stato = stato_enum_1["default"][stato];
-        this.dataScadenza = this.formatDate(jsonTask.dataScadenza);
+        this.dataScadenza = jsonTask.dataScadenza;
+        this.dataMysql = this.formatDate(jsonTask.dataScadenza);
     }
     Task.prototype.formatDate = function (date) {
         var parts = date.split("/");
-        return [parts[2], parts[0], parts[1]].join("/");
+        return [parts[1], parts[0], parts[2]].join("/");
     };
     return Task;
 }());
