@@ -9,10 +9,11 @@
         "moduleResolution": "node",
         "importHelpers": true,
         "target": "es2015",
-        "module": "es2020",
+        "module": "commonjs",
         "lib": [
           "es2018",
           "dom"
         ]
-      }
+      },
+      "exclude": ["node_modules", "dist"]
 }

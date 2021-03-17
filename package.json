@@ -4,7 +4,8 @@
   "description": "a simple todo-list app",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "npx tsc src/index.ts & nodemon src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -21,9 +22,16 @@
   },
   "homepage": "https://github.com/RoccoRusso95/TODOlist#readme",
   "dependencies": {
-    "class-validator": "^0.13.1"
+    "@types/node": "^13.7.7",
+    "class-validator": "^0.13.1",
+    "fs": "0.0.1-security",
+    "http": "0.0.1-security",
+    "js-datepicker": "^5.18.0",
+    "moment": "^2.29.1",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
+    "@types/mysql": "^2.15.18",
     "tslint": "^5.12.1",
     "typescript": "^3.3.3"
   }
