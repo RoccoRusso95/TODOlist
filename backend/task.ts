@@ -12,7 +12,7 @@ export default class Task {
 
     dataScadenza: string;
 
-    //formato per mysql
+    //formato per mysql (yyyy-mm-dd)
     dataMysql: string;
 
     constructor(jsonTask: any) {
