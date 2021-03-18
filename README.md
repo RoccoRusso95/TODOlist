@@ -6,3 +6,4 @@
   - clonare il repository
   - attivare mysql sulla porta 3306
   - lanciare il comando: "npm run start"
+  - aprire sul browser localhost:3001
