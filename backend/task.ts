@@ -26,7 +26,7 @@ export default class Task {
 
     formatDate(date: string){
         const parts = date.split("/");
-        return [parts[1],parts[0],parts[2]].join("/");
+        return [parts[2],parts[1],parts[0]].join("/");
     }
 
 }
